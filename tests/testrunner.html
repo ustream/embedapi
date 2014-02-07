@@ -1,0 +1,29 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Tests</title>
+    <link rel="stylesheet" href="../node_modules/mocha/mocha.css" />
+</head>
+<body>
+    <div id="mocha"></div>
+
+    <script src="../node_modules/sinon/pkg/sinon.js"></script>
+    <script src="../node_modules/mocha/mocha.js"></script>
+    <script src="../node_modules/chai/chai.js"></script>
+
+    <script>
+        mocha.setup('tdd');
+        mocha.reporter('html');
+        assert = chai.assert;
+    </script>
+
+    <!-- Tests -->
+    <script src="../src/ustream-embedapi.js"></script>
+    <script src="mocks/frame.js"></script>
+    <script src="tests.js"></script>
+
+    <script>
+        mocha.run();
+    </script>
+</body>
+</html>

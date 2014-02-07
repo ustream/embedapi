@@ -1,0 +1,316 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome-ie7.min.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
+    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+
+    <script src="../src/ustream-embedapi.js"></script>
+
+    <style type="text/css">
+        body {
+            padding: 20px;
+        }
+    </style>
+
+</head>
+<body>
+
+
+<div class="page-header">
+    <h1>Ustream EmbedAPI <small>basic example</small></h1>
+</div>
+
+
+<div class="clearfix">
+    <div style="padding: 20px 0;">
+        <span style="display: none;" class="st-live label label-important">LIVE</span>
+        <span style="display: none;" class="st-offline label ">OFFLINE</span>
+        <span style="display: none;" class="st-playing label label-info">PLAYING</span>
+        <span style="display: none;" class="st-ended label label-success">ENDED</span>
+    </div>
+
+    <div style="width: 680px; float: left; margin-bottom: 100px;">
+        <div class="well " >
+            <iframe src="http://www.ustream.tv/embed/1524?debug=1" id="UstreamFrame" width="640" height="392" style="border: 0 transparent none;"></iframe>
+        </div>
+
+        <h3>Example media</h3>
+
+        <div class="media" data-media="4307895" data-type="channel">
+            <a class="pull-left" href="#">
+                <img class="media-object" src="http://static-cdn2.ustream.tv/i/channel/picture/4/3/0/7/4307895/4307895_4307895_creativelive-u_1322590439,66x66,r:1.jpg">
+            </a>
+            <div class="media-body">
+                <h4 class="media-heading">creativeLIVE <span class="label label-info">channel</span></h4>
+                creativeLIVE provides the best free, live creative education on the web. We offer high-quality workshops in photography, business, video, web and graphic design, and more.
+            </div>
+        </div>
+        <hr />
+        <div class="media" data-media="1524" data-type="channel">
+            <a class="pull-left" href="#">
+                <img class="media-object" src="http://static-cdn1.ustream.tv/i/channel/picture/1/5/2/4/1524/1524_screenshot2013-01-03at6.4_1357331443,66x66,r:1.jpg">
+            </a>
+            <div class="media-body">
+                <h4 class="media-heading">TWiT Live <span class="label label-info">channel</span></h4>
+                Live from the TWiT Brick House, non-stop technology news and conversation with Leo Laporte and friends.
+            </div>
+        </div>
+        <hr />
+        <div class="media" data-media="6540154" data-type="channel">
+            <a class="pull-left" href="#">
+                <img class="media-object" src="http://static-cdn1.ustream.tv/i/channel/picture/6/5/4/0/6540154/6540154_nasatv_public_hr_1330361732,66x66,r:1.jpg">
+            </a>
+            <div class="media-body">
+                <h4 class="media-heading">NASA Public <span class="label label-info">channel</span></h4>
+                NASA TV airs a variety of regularly scheduled, pre-recorded educational and public relations programming 24 hours a day on its various channels.
+            </div>
+        </div>
+        <hr />
+        <div class="media" data-media="24364591" data-type="video">
+            <a class="pull-left" href="#">
+                <img class="media-object" src="http://static-cdn2.ustream.tv/i/channel/picture/4/9/8/6/498663/498663_msl_cam_100x75_1286920251,66x66,r:1.jpg">
+            </a>
+            <div class="media-body">
+                <h4 class="media-heading">Curiosity's Seven Minutes of Terror <span class="label label-info">recorded</span></h4>
+                Video about the Mars Curiosity rover landing
+            </div>
+        </div>
+        <hr />
+        <div class="media" data-media="25728478" data-type="video">
+            <a class="pull-left" href="#">
+                <img class="media-object" src="http://static-cdn1.ustream.tv/i/channel/picture/6/0/2/9/6029144/6029144_youtube_beatport_1312827936,66x66,r:1.jpg">
+            </a>
+            <div class="media-body">
+                <h4 class="media-heading">Paul van Dyk Beatport Live <span class="label label-info">recorded</span></h4>
+                Beatport is the world's leading music store and community for DJs. Join our crowd here on Ustream and be notified when we stream live every Friday from our offices in Berlin, Germany and Denver, Colorado USA.
+            </div>
+        </div>
+
+
+    </div>
+
+    <form class="form-inline" action="#">
+        <fieldset style="margin: 0 20px; float: left; width: 200px;">
+
+
+            <button class="btn btn-success control-play"><i class="icon-play"></i> Play</button>
+            <button class="btn control-pause"><i class="icon-pause"></i> Pause</button>
+
+
+            <hr />
+            <div class="input-prepend">
+                <button class="btn control-seek" type="button"><i class="icon-forward"></i> Seek to</button>
+                <input class="span2" id="SeekTo" type="text">
+            </div>
+            <hr />
+            <div class="input-prepend">
+                <button class="btn control-volume" type="button"><i class="icon-volume-up"></i> Set volume</button>
+                <input class="span2" value="100" id="SetVolume" type="number">
+            </div>
+            <hr />
+            <div class="input-prepend">
+                <button class="btn control-duration" type="button"><i class="icon-time"></i> Get Duration</button>
+                <input class="span2" id="Duration" readonly="readonly"  type="text">
+            </div>
+            <hr />
+            <div class="input-prepend">
+                <button class="btn control-progress" type="button"><i class="icon-map-marker"></i> Get Progress</button>
+                <input class="span2" id="Progress" readonly="readonly"  type="text">
+            </div>
+            <hr />
+            <div class="input-prepend">
+                <button class="btn control-viewers" type="button"><i class="icon-user"></i> Get Viewers</button>
+                <input class="span2" id="Viewers" readonly="readonly" type="text">
+            </div>
+
+            <hr />
+
+            <div class="btn-group">
+                <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+                    Quality
+                    <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu quality-selector">
+                </ul>
+            </div>
+
+            <hr />
+
+            <div class="input-append">
+                <input class="span2"  type="number" placeholder="content id" id="LoadContent">
+                <div class="btn-group">
+                    <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+                        Load
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#" class="control-load-channel">channel</a></li>
+                        <li><a href="#" class="control-load-video">video</a></li>
+
+                    </ul>
+                </div>
+            </div>
+
+        </fieldset>
+    </form>
+</div>
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        var viewer = UstreamEmbed("UstreamFrame");
+
+        $('.media').on("click", function (e) {
+            clearFields();
+
+            var target = $(e.currentTarget),
+                    media = target.data('media'),
+                    type = target.data('type');
+
+            viewer.callMethod('load', type, media);
+
+            e.preventDefault();
+        });
+
+
+        /*
+         set up controls
+         */
+        $(document.body).on("click", '.btn, .dropdown-menu a', function (e) {
+            var target = $(e.currentTarget),
+                    control = target[0].className.match(/control-([a-zA-Z0-9\-]*)/);
+
+            if (control && control[1]) {
+
+                switch (control[1]) {
+
+                    case "play":
+                        viewer.callMethod('play');
+                        break;
+                    case "pause":
+                        viewer.callMethod('pause');
+                        break;
+                    case "seek":
+                        viewer.callMethod('seek', $("#SeekTo").val());
+                        break;
+                    case "volume":
+                        viewer.callMethod('volume', $("#SetVolume").val());
+                        break;
+                    case "duration":
+                        viewer.getProperty('duration', function (data) {
+                            $('#Duration').val(data);
+                        });
+                        break;
+                    case "progress":
+                        viewer.getProperty('progress', function (data) {
+                            $('#Progress').val(data);
+                        });
+                        break;
+                    case "viewers":
+                        viewer.getProperty('viewers', function (data) {
+                            $('#Viewers').val(data);
+                        });
+                        break;
+                    case "load-video":
+                        clearFields();
+                        viewer.callMethod('load', 'video', $("#LoadContent").val());
+                        break;
+                    case "load-channel":
+                        clearFields();
+                        viewer.callMethod('load', 'channel', $("#LoadContent").val());
+                        break;
+                    case "quality":
+                        viewer.callMethod('quality', target.data('quality'));
+                        break;
+
+                }
+
+            }
+
+            e.preventDefault();
+        });
+
+
+        /*
+         populate quality selector with receiced data
+         */
+        var populateQualitySelector = function (data) {
+            var list =  $('.quality-selector');
+            list.find('li').remove(); // remove previously set data
+            for (var id in data) {
+                list.append('<li><a href="#" class="control-quality" data-quality="' + id + '">' + data[id].label + '</a></li>')
+            }
+        }
+
+        /*
+         clear some data fields that are relevant to content
+         */
+        var clearFields = function () {
+            populateQualitySelector({});
+            $('#Progress').val('');
+            $('#Viewers').val('');
+            $('#Duration').val('');
+
+            $('.st-ended').hide();
+            $('.st-playing').hide();
+            $('.st-offline').hide();
+            $('.st-live').hide();
+        }
+
+        /*
+         event handler for events received from the embed iframe
+         */
+        var onEmbedEvent = function (event, data) {
+            switch (event) {
+                case "ready":
+                    clearFields();
+                    break;
+                case "quality":
+                    populateQualitySelector(data);
+                    break;
+                case "live":
+                    $('.st-live').show();
+                    $('.st-offline').hide();
+                    break;
+                case "offline":
+                    $('.st-offline').show();
+                    $('.st-live').hide();
+                    break;
+                case "playing":
+                    if (data) {
+                        $('.st-playing').show()
+                    } else {
+                        $('.st-playing').hide();
+                    }
+                    break;
+                case "finished":
+                    $('.st-ended').show();
+                    break;
+                case "size":
+                    break;
+            }
+        }
+
+        viewer.addListener('ready', onEmbedEvent);
+        viewer.addListener('quality', onEmbedEvent);
+        viewer.addListener('live', onEmbedEvent);
+        viewer.addListener('offline', onEmbedEvent);
+        viewer.addListener('playing', onEmbedEvent);
+        viewer.addListener('finished', onEmbedEvent);
+        viewer.addListener('size', onEmbedEvent);
+
+    });
+
+</script>
+
+</body>
+</html>
+	

@@ -1,0 +1,215 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome-ie7.min.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
+    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+
+    <script src="http://static-cdn1.ustream.tv/js/libs/ustream-embedapi.js"></script>
+
+
+    <style type="text/css">
+        body {
+            padding: 20px;
+        }
+    </style>
+
+</head>
+<body>
+
+
+<div class="page-header">
+    <h1>Ustream EmbedAPI <small>dynamically inserted iframes</small></h1>
+</div>
+
+
+<div class="clearfix">
+
+
+
+
+    <div style="width: 360px; float: left; margin-bottom: 100px; margin-right: 10px;">
+        <div style="padding: 20px 0;" id="StatusAlpha">
+            <span style="display: none;" class="st-live label label-important">LIVE</span>
+            <span style="display: none;" class="st-offline label ">OFFLINE</span>
+            <span style="display: none;" class="st-playing label label-info">PLAYING</span>
+            <span style="display: none;" class="st-ended label label-success">ENDED</span>
+        </div>
+
+        <div class="well" >
+            <iframe src="http://www.ustream.tv/embed/1524" id="FrameAlpha" width="320" height="213" style="border: 0 transparent none;"></iframe>
+        </div>
+
+        <form class="form-inline" action="#">
+            <fieldset style="margin: 0 20px; float: left; width: 200px;">
+
+
+                <button id="PlayAlpha" class="btn btn-success control-play"><i class="icon-play"></i> Play</button>
+                <button id="PauseAlpha" class="btn control-pause"><i class="icon-pause"></i> Pause</button>
+            </fieldset>
+        </form>
+
+    </div>
+    <div style="width: 360px; float: left; margin-bottom: 100px; margin-right: 10px;">
+
+        <div style="padding: 20px 0;" id="StatusBeta">
+            <span style="display: none;" class="st-live label label-important">LIVE</span>
+            <span style="display: none;" class="st-offline label ">OFFLINE</span>
+            <span style="display: none;" class="st-playing label label-info">PLAYING</span>
+            <span style="display: none;" class="st-ended label label-success">ENDED</span>
+        </div>
+        <div class="well " id="Beta">
+
+        </div>
+        <form class="form-inline" action="#">
+            <fieldset style="margin: 0 20px; float: left; width: 200px;">
+
+
+                <button id="PlayBeta" class="btn btn-success control-play"><i class="icon-play"></i> Play</button>
+                <button id="PauseBeta" class="btn control-pause"><i class="icon-pause"></i> Pause</button>
+            </fieldset>
+        </form>
+
+
+    </div>
+    <div style="width: 360px; float: left; margin-bottom: 100px;">
+
+        <div style="padding: 20px 0;" id="StatusGamma">
+            <span style="display: none;" class="st-live label label-important">LIVE</span>
+            <span style="display: none;" class="st-offline label ">OFFLINE</span>
+            <span style="display: none;" class="st-playing label label-info">PLAYING</span>
+            <span style="display: none;" class="st-ended label label-success">ENDED</span>
+        </div>
+        <div class="well " id="Gamma" >
+
+            <button id="InsertGamma" class="btn control-play">Insert embed here</button>
+
+        </div>
+        <form class="form-inline" action="#">
+            <fieldset style="margin: 0 20px; float: left; width: 200px;">
+
+
+                <button id="PlayGamma" class="btn btn-success control-play"><i class="icon-play"></i> Play</button>
+                <button id="PauseGamma" class="btn control-pause"><i class="icon-pause"></i> Pause</button>
+            </fieldset>
+        </form>
+
+    </div>
+</div>
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+
+
+        $('#Beta').html('<iframe src="http://www.ustream.tv/embed/6540154" ' +
+                'id="FrameBeta" ' +
+                'width="320" ' +
+                'height="213" ' +
+                'style="border: 0 transparent none;"></iframe>');
+
+        /*
+         create player instances
+         */
+        var alpha = UstreamEmbed("FrameAlpha"),
+                beta = UstreamEmbed("FrameBeta"),
+                gamma;
+        /*
+         bind controls to buttons
+         */
+        $('#PlayAlpha').on('click', function (e) { e.preventDefault(); e.stopPropagation(); alpha.callMethod('play'); });
+        $('#PlayBeta').on('click', function (e) { e.preventDefault(); e.stopPropagation(); beta.callMethod('play'); });
+
+
+        $('#PauseAlpha').on('click', function (e) { e.preventDefault(); e.stopPropagation(); alpha.callMethod('pause'); });
+        $('#PauseBeta').on('click', function (e) { e.preventDefault(); e.stopPropagation(); beta.callMethod('pause'); });
+
+
+
+        /*
+         event handler for events received from the embed iframe
+         */
+        var onEmbedEvent = function (id, event, data) {
+
+            var parent = $('#' + id);
+
+            switch (event) {
+                case "live":
+                    parent.find('.st-live').show();
+                    parent.find('.st-offline').hide();
+                    break;
+                case "offline":
+                    parent.find('.st-offline').show();
+                    parent.find('.st-live').hide();
+                    break;
+                case "playing":
+                    if (data) {
+                        parent.find('.st-playing').show()
+                    } else {
+                        parent.find('.st-playing').hide();
+                    }
+                    break;
+                case "finished":
+                    parent.find('.st-ended').show();
+                    break;
+            }
+        }
+
+        /*
+         adding event handlers, one by one
+         */
+        alpha.addListener('live', $.proxy(onEmbedEvent, null, 'StatusAlpha'));
+        alpha.addListener('offline', $.proxy(onEmbedEvent, null, 'StatusAlpha'));
+        alpha.addListener('playing', $.proxy(onEmbedEvent, null, 'StatusAlpha'));
+        alpha.addListener('finished', $.proxy(onEmbedEvent, null, 'StatusAlpha'));
+
+        beta.addListener('live', $.proxy(onEmbedEvent, null, 'StatusBeta'));
+        beta.addListener('offline', $.proxy(onEmbedEvent, null, 'StatusBeta'));
+        beta.addListener('playing', $.proxy(onEmbedEvent, null, 'StatusBeta'));
+        beta.addListener('finished', $.proxy(onEmbedEvent, null, 'StatusBeta'));
+
+
+
+        $('#InsertGamma').on('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            var gammaHolder = document.getElementById('Gamma');
+            var gammaFrame = document.createElement('iframe');
+
+            gammaHolder.innerHTML = '';
+
+            gammaFrame.src = "http://www.ustream.tv/embed/recorded/24364591";
+            gammaFrame.width = 320;
+            gammaFrame.height = 213;
+            gammaHolder.appendChild(gammaFrame);
+
+            gamma = UstreamEmbed(gammaFrame);
+
+            $('#PlayGamma').on('click', function (e) { e.preventDefault(); e.stopPropagation(); gamma.callMethod('play'); });
+            $('#PauseGamma').on('click', function (e) { e.preventDefault(); e.stopPropagation(); gamma.callMethod('pause'); });
+
+            gamma.addListener('live', $.proxy(onEmbedEvent, null, 'StatusGamma'));
+            gamma.addListener('offline', $.proxy(onEmbedEvent, null, 'StatusGamma'));
+            gamma.addListener('playing', $.proxy(onEmbedEvent, null, 'StatusGamma'));
+            gamma.addListener('finished', $.proxy(onEmbedEvent, null, 'StatusGamma'));
+        })
+
+    });
+
+</script>
+
+<div class="alert alert-info">
+    Last modified at 12/9/2013 - view source for example code
+</div>
+
+</body>
+</html>
