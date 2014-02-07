@@ -291,7 +291,7 @@ the viewers can only access the stream with a valid ticket bought.
 
 ##### Example:
 ```javascript
-viewer.addListener('ppvgofree', callBack);
+viewer.addListener('ppvgopaid', callBack);
 ```
 
 ### syncedmeta
