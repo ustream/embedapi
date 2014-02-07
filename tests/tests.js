@@ -239,8 +239,6 @@ suite('Ustream EmbedAPI tests', function() {
 			mte = MTE();
 			sstream = MTE('SocialStreamTest');
 
-			console.log(sstream );
-
 			embedapi = UstreamEmbed(mte);
 
 			window[mte.id] = mte;
@@ -261,8 +259,6 @@ suite('Ustream EmbedAPI tests', function() {
 			done();
 		});
 
-
-
 		test("ready", function (done) {
 
 			var mte,
@@ -280,26 +276,24 @@ suite('Ustream EmbedAPI tests', function() {
 			window[mte.id] = mte;
 			window[sstream.id] = sstream;
 
+			mte.send('ready', true);
+
 			embedapi.callMethod('socialstream', sstream);
+
+			spy.reset();
 
 			sstream.socialsend('ready');
 
-			setTimeout(function () {
+			var call = spy.getCall(0),
+				received = JSON.parse(call.args[0]);
 
-				var call = spy.getCall(0),
-					received = JSON.parse(call.args[0]);
+			sinon.assert.calledOnce(spy);
+			assert.equal(received.cmd, 'ready');
 
-				sinon.assert.calledOnce(spy);
-				assert.equal(received.cmd, 'ready');
-
-				done();
-			}, 30);
-
+			done();
 
 
 		});
-
-
 
 		test("load", function (done) {
 
@@ -326,17 +320,16 @@ suite('Ustream EmbedAPI tests', function() {
 
 			sstream.socialsend('load', ['video',123456]);
 
-			setTimeout(function () {
 
-				var received = JSON.parse(mspy.args[0][0]);
+			var received = JSON.parse(mspy.args[0][0]);
 
-				sinon.assert.calledOnce(mspy);
-				assert.equal(received.cmd, 'load');
-				assert.equal(received.args[0], 'video');
-				assert.equal(received.args[1], 123456);
+			sinon.assert.calledOnce(mspy);
+			assert.equal(received.cmd, 'load');
+			assert.equal(received.args[0], 'video');
+			assert.equal(received.args[1], 123456);
 
-				done();
-			}, 30);
+			done();
+
 
 		});
 	});
