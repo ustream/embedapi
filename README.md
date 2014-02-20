@@ -173,6 +173,22 @@ viewer.getProperty('progress', function (progress) {
 });
 ```
 
+
+### content
+
+Get the current content type and id as an array
+
+##### Example:
+
+```javascript
+viewer.getProperty('content', function (content) {
+    // content == ['channel', 1524]
+    // or
+    // content == ['recorded', 123456]
+    ...
+});
+```
+
 ---------------------------------------
 
 ## addListener &amp; removeListener
@@ -305,6 +321,19 @@ Received arguments: data (object)
 ```javascript
 viewer.addListener('syncedmeta', callBack);
 ```
+
+### content
+
+Called when a the player content changes for some reason.
+Same data as received in getProperty('content')
+
+Received arguments: data (array)
+
+##### Example:
+```javascript
+viewer.addListener('content', callBack);
+```
+
 
 [Ustream]:http://ustream.tv/
 [postMessage]:http://www.w3.org/TR/webmessaging/

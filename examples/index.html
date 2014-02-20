@@ -4,10 +4,13 @@
         <title></title>
 
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+
         <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome-ie7.min.css" rel="stylesheet">
         <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
-        <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
-        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+
+        <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+
+        <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 
         <script src="../src/ustream-embedapi.js"></script>
 
@@ -26,17 +29,28 @@
 
 
     <div class="clearfix">
-        <div style="padding: 20px 0;">
-            <span style="display: none;" class="st-live label label-important">LIVE</span>
-            <span style="display: none;" class="st-offline label ">OFFLINE</span>
-            <span style="display: none;" class="st-playing label label-info">PLAYING</span>
+        <div style="padding: 0px 0 20px 0;">
+            <span style="display: none;" class="st-live label label-danger">LIVE</span>
+            <span style="display: none;" class="st-offline label label-default">OFFLINE</span>
+            <span style="display: none;" class="st-playing label label-primary">PLAYING</span>
             <span style="display: none;" class="st-ended label label-success">ENDED</span>
+            <span style="" class="st-content label label-warning">channel,1524</span>
+            &nbsp;
         </div>
 
         <div style="width: 680px; float: left; margin-bottom: 100px;">
             <div class="well " >
                 <iframe src="http://www.ustream.tv/embed/1524" id="UstreamFrame" width="640" height="392" style="border: 0 transparent none;"></iframe>
             </div>
+
+            <div class="input-group">
+                    <span class="input-group-btn">
+                        <button class="btn control-content btn-info" type="button"><i class="icon-user"></i> Get Content</button>
+                    </span>
+                <input class="form-control span2" id="Content" readonly="readonly" type="text">
+            </div>
+
+
 
             <h3>Example media</h3>
 
@@ -97,56 +111,53 @@
             <fieldset style="margin: 0 20px; float: left; width: 200px;">
 
 
-                <button class="btn btn-success control-play"><i class="icon-play"></i> Play</button>
-                <button class="btn control-pause"><i class="icon-pause"></i> Pause</button>
+                <button class="btn btn-success control-play" type="button"><i class="icon-play"></i> Play</button>
+                <button class="btn control-pause btn-info" type="button"><i class="icon-pause"></i> Pause</button>
 
 
                 <hr />
-                <div class="input-prepend">
-                    <button class="btn control-seek" type="button"><i class="icon-forward"></i> Seek to</button>
-                    <input class="span2" id="SeekTo" type="text">
+                <div class="input-group">
+                    <span class="input-group-btn">
+                        <button class="btn control-seek btn-info" type="button"><i class="icon-forward"></i> Seek to</button>
+                    </span>
+                    <input class="form-control span2" id="SeekTo" type="text">
                 </div>
                 <hr />
-                <div class="input-prepend">
-                    <button class="btn control-volume" type="button"><i class="icon-volume-up"></i> Set volume</button>
-                    <input class="span2" value="100" id="SetVolume" type="number">
+                <div class="input-group">
+                    <span class="input-group-btn">
+                        <button class="btn control-volume btn-info" type="button"><i class="icon-volume-up"></i> Set volume</button>
+                    </span>
+                    <input class="form-control span2" value="100" id="SetVolume" type="number">
                 </div>
                 <hr />
-                <div class="input-prepend">
-                    <button class="btn control-duration" type="button"><i class="icon-time"></i> Get Duration</button>
-                    <input class="span2" id="Duration" readonly="readonly"  type="text">
+                <div class="input-group">
+                    <span class="input-group-btn">
+                        <button class="btn control-duration btn-info" type="button"><i class="icon-time"></i> Get Duration</button>
+                    </span>
+                    <input class="form-control span2" id="Duration" readonly="readonly"  type="text">
                 </div>
                 <hr />
-                <div class="input-prepend">
-                    <button class="btn control-progress" type="button"><i class="icon-map-marker"></i> Get Progress</button>
-                    <input class="span2" id="Progress" readonly="readonly"  type="text">
+                <div class="input-group">
+                    <span class="input-group-btn">
+                        <button class="btn control-progress btn-info" type="button"><i class="icon-map-marker"></i> Get Progress</button>
+                    </span>
+                    <input class="form-control span2" id="Progress" readonly="readonly"  type="text">
                 </div>
                 <hr />
-                <div class="input-prepend">
-                    <button class="btn control-viewers" type="button"><i class="icon-user"></i> Get Viewers</button>
-                    <input class="span2" id="Viewers" readonly="readonly" type="text">
+                <div class="input-group">
+                    <span class="input-group-btn">
+                        <button class="btn control-viewers btn-info" type="button"><i class="icon-user"></i> Get Viewers</button>
+                    </span>
+                    <input class="form-control span2" id="Viewers" readonly="readonly" type="text">
                 </div>
+                <hr />
+                <div class="input-group">
+                    <input class="span2 form-control"  type="number" placeholder="content id" id="LoadContent">
+                    <div class="input-group-btn">
 
-                <hr />
+                        <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">Load <span class="caret"></span></button>
 
-                <div class="btn-group">
-                    <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-                        Quality
-                        <span class="caret"></span>
-                    </a>
-                    <ul class="dropdown-menu quality-selector">
-                    </ul>
-                </div>
 
-                <hr />
-
-                <div class="input-append">
-                    <input class="span2"  type="number" placeholder="content id" id="LoadContent">
-                    <div class="btn-group">
-                        <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-                            Load
-                            <span class="caret"></span>
-                        </a>
                         <ul class="dropdown-menu">
                             <li><a href="#" class="control-load-channel">channel</a></li>
                             <li><a href="#" class="control-load-video">video</a></li>
@@ -154,6 +165,21 @@
                         </ul>
                     </div>
                 </div>
+                <hr />
+
+
+                <div class="btn-group">
+                    <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
+                        Quality
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu quality-selector">
+                    </ul>
+                </div>
+
+                <hr />
+
+
 
             </fieldset>
         </form>
@@ -215,6 +241,11 @@
                         case "viewers":
                             viewer.getProperty('viewers', function (data) {
                                 $('#Viewers').val(data);
+                            });
+                            break;
+                        case "content":
+                            viewer.getProperty('content', function (data) {
+                                $('#Content').val(data.join(','));
                             });
                             break;
                         case "load-video":
@@ -292,6 +323,9 @@
                     case "finished":
                         $('.st-ended').show();
                         break;
+                    case "content":
+                        $('.st-content').text(data.join(','));
+                        break;
                     case "size":
                         break;
                 }
@@ -304,6 +338,7 @@
             viewer.addListener('playing', onEmbedEvent);
             viewer.addListener('finished', onEmbedEvent);
             viewer.addListener('size', onEmbedEvent);
+            viewer.addListener('content', onEmbedEvent);
 
         });
 
