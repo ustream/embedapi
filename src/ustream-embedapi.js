@@ -89,7 +89,7 @@ var UstreamEmbed = (function () {
 
 					if (doc && doc.contentWindow && doc.contentWindow === e.source) {
 						instanceObj.onmessage(e);
-					} else if (e.source == sStreamElement.id) {
+					} else if (e.source === sStreamElement.id) {
 						instanceObj.onmessage(e);
 					}
 				}
