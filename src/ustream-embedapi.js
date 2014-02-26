@@ -165,8 +165,11 @@ var UstreamEmbed = (function () {
 						}
 
 						if (e.origin == embedHost) {
-							d = JSON.parse(e.data);
-
+							try {
+								d = JSON.parse(e.data);
+							} catch (err) {
+								return;
+							}
 
 							if (d.sstream) {
 								onSStreamMsg(e);
