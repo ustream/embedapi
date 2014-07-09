@@ -112,6 +112,7 @@ var UstreamEmbed = (function () {
 
 				function ready () {
 					isReady = true;
+					sendMessage(element, embedHost, {cmd: 'apihandshake', args: []});
 					execCommandQueue();
 				}
 
