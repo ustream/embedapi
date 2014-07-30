@@ -1,6 +1,3 @@
-
-
-
 suite('Ustream EmbedAPI tests', function() {
 
 	var MTE = createMockFrame;
