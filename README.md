@@ -1,5 +1,7 @@
 # Ustream Embed API
 
+[![Build Status](https://travis-ci.org/ustream/embedapi.svg?branch=master)](https://travis-ci.org/ustream/embedapi)
+
 Enables sites using the [Ustream] embed iframe to build and adapt on the embed live player.
 
 The Ustream Embed API provides basic methods to control the live stream or recorded video playback, and enables the user to access essential events of the live stream or the played video.
