@@ -289,29 +289,6 @@ viewer.addListener('quality', callBack);
 }
 ```
 
-
-### ppvgofree
-
-Called when the Pay-Per-View stream becomes available free
-
-
-##### Example:
-```javascript
-viewer.addListener('ppvgofree', callBack);
-```
-
-
-### ppvgopaid
-
-Called when the free available Pay-Per-View stream closes the paywall,
-the viewers can only access the stream with a valid ticket bought.
-
-
-##### Example:
-```javascript
-viewer.addListener('ppvgopaid', callBack);
-```
-
 ### syncedmeta
 
 Called when a synced metadata has arrived on the stream/recorded. 
