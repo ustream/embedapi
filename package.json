@@ -1,6 +1,6 @@
 {
 	"name": "ustream-embedapi",
-	"version": "0.0.3",
+	"version": "0.0.4",
 	"description": "Enables sites using the Ustream embed iframe to build and adapt on the embed live player",
 	"author": "_Nec <nec@ustream.tv>",
 	"devDependencies": {

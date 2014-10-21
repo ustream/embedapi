@@ -324,6 +324,12 @@ var UstreamEmbed = (function () {
 
 	addDomEvent(window, 'message', onMessage);
 
-	return (window.UstreamEmbed = UstreamEmbed);
+	if (typeof define === 'function' && define.amd) {
+		define([], function () {
+			return UstreamEmbed;
+		});
+	} else {
+		return (window.UstreamEmbed = UstreamEmbed);
+	}
 
 })();
