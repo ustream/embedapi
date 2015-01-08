@@ -22,6 +22,12 @@ var UstreamEmbed = (function () {
 	function createInstance (iframe) {
 		var element = getIframe(iframe),
 			instance = (function (element) {
+			
+			// check and see if the element is there before continuing 
+			if(!element) {
+  			 return;
+			 }
+			
 				var isReady = false,
 					instanceObj,
 					embedHost,
@@ -242,14 +248,19 @@ var UstreamEmbed = (function () {
 					}
 				};
 			}(element));
-
-		if (!element.id) {
+    
+    // make sure the element is there before we ask for the ID
+		if (element && !element.id) {
 			element.id = "UstreamEmbed" + Math.ceil(Math.random() * 100000);
 		}
+    
+    // again, let's make sure the element is there before setting the instance id
+    if (element) {
+    	instance.id = element.id;
 
-		instance.id = element.id;
-
-		instances[element.id] = instance;
+		  instances[element.id] = instance;
+		}
+		
 		return instance;
 	}
 
