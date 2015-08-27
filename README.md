@@ -13,7 +13,7 @@ The Ustream Embed API requires [postMessage] DOM API, it won't work in browsers 
 Create an instance of the Embed API by providing the ID of the iframe, or the iframe DOM object itself:
 
 ```html
-<iframe id="UstreamIframe" src="//ustream.tv/embed/1524" width="640" height="480"></iframe>
+<iframe id="UstreamIframe" src="//ustream.tv/embed/1524" width="640" height="480" allowfullscreen webkitallowfullscreen></iframe>
 ```
 
 ```javascript
@@ -27,6 +27,19 @@ The Ustream Embed API provides the following methods:
  * addListener
  * removeListener
 
+## URL parameters
+
+The default behaviour of the player can be modified by extending the src URL with any of the following parameters:
+
+| Parameter | Effect | Values | Default |
+| ------------- | ----------- | ----------- | ----------- |
+| allowfullscreen | Disables fullscreen and remove the button. | true/false | true |
+| autoplay | Starts video playback automatically. (Enterprise feature) | true/false | false |
+| controls | Hides all UI elements. | true/false | true |
+| offaircontent | Disables displaying offair content. | true/false | true |
+| quality | Overrides the automatic quality selection. | low, med, high, auto | auto |
+| showtitle | Hides title and viewer count. | true/false | true |
+| volume | Overrides the default volume. 0 is mute, 1 is max volume. | 0.0-1.0 | user setting |
 
 ## callMethod
 
