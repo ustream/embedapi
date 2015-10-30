@@ -425,6 +425,51 @@ suite('Ustream EmbedAPI tests', function() {
 			}, 30);
 
 		});
+
+		suite('playingContent', function () {
+			test('playingContent just once', function (done) {
+				var cmd = 'playingContent',
+					mte = MTE(),
+					embedapi = UstreamEmbed(mte),
+					spy = sinon.spy();
+
+				window[mte.id] = mte;
+
+				mte.send('ready', true);
+
+				embedapi.getProperty(cmd, spy);
+
+				setTimeout(function () {
+					var received = JSON.parse(spy.args[0][0]);
+					sinon.assert.calledOnce(spy);
+					assert.equal(received, 100);
+					done();
+				}, 30);
+			});
+
+
+			test('playingContent recursively', function (done) {
+				var cmd = 'playingContent',
+					mte = MTE(),
+					embedapi = UstreamEmbed(mte),
+					spy = sinon.spy();
+
+				window[mte.id] = mte;
+
+				mte.send('ready', true);
+
+				embedapi.callMethod(cmd, function () {
+					embedapi.callMethod(cmd, spy);
+				});
+
+				setTimeout(function () {
+					var received = JSON.parse(spy.args[0][0]);
+					sinon.assert.calledOnce(spy);
+					assert.equal(received, 100);
+					done();
+				}, 100);
+			});
+		});
 	});
 
 

@@ -273,14 +273,16 @@ var UstreamEmbed = (function () {
 			return;
 		}
 
-		for (var cb in getters[event]) {
-			if (getters[event].hasOwnProperty(cb)) {
-				getters[event][cb].call(window, data);
-			}
-		}
+		// keep reference to array only here
+		var items = getters[event];
 
+		// then delete the original array
 		getters[event] = null;
 		delete getters[event];
+
+		items.forEach(function (item) {
+			item.call(window, data);
+		});
 	}
 
 	function onMessage (e) {
