@@ -191,7 +191,7 @@ viewer.getProperty('progress', function (progress) {
 
 ### content
 
-Get the current content type and id as an array
+Get the loaded content type and id as an array.
 
 ##### Example:
 
@@ -201,6 +201,27 @@ viewer.getProperty('content', function (content) {
     // or
     // content == ['recorded', 123456]
     ...
+});
+```
+
+### playingContent
+
+Get the actual content type and id as an array. This will return the currently played offair video's id if the loaded content is an offair channel or with the channel id if the channel is live.
+
+##### Example:
+
+```javascript
+viewer.callMethod('load', 'channel', 1524);
+
+// ...
+
+viewer.getProperty('playingContent', function (content) {
+    // content == ['channel', 1524]
+    //  - if it's live, or
+    // content == ['recorded', 123456]
+    //  - if it's offair and has offair video content, or
+    // content == []
+    //  - if it's offair and doesn't have offair video content
 });
 ```
 
