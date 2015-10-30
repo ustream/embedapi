@@ -33,7 +33,7 @@ var UstreamEmbed = (function () {
 					events = {},
 					ieHackEvent = [];
 
-				embedHost = getHostName(element.getAttribute('src'));
+				embedHost = getHostName(element.getAttribute('src')).toLowerCase();
 
 				function addCommandQueue (method) {
 
@@ -165,7 +165,7 @@ var UstreamEmbed = (function () {
 							// ugyh ha a ss inicializalas megvan visszahivunk ide
 						}
 
-						if (e.origin == embedHost) {
+						if (e.origin.toLowerCase() == embedHost) {
 							try {
 								d = JSON.parse(e.data);
 							} catch (err) {
