@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+
+	<style>
+		body {
+			padding: 0 30px;
+		}
+
+		.container {
+			margin: 30px auto;
+		}
+
+		.content-chooser .row {
+			margin: 10px -5px 0;
+		}
+
+		.content {
+			padding: 0 5px;
+		}
+
+		.content a {
+			display: block;
+			position: relative;
+			padding: 0;
+		}
+
+		.content img {
+			width: 100%;
+		}
+
+		.content img:hover {
+			opacity: 0.9;
+		}
+	</style>
+
+	<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+	<script src="../src/ustream-embedapi.js"></script>
+</head>
+<body>
+	<div class="page-header">
+		<h1>Ustream EmbedAPI <small>multiview example</small></h1>
+	</div>
+
+	<div class="description">
+		<p>In this example the content of the player is loaded and changed dynamically, providing an easy way for seamless switching between live or VOD contents.</p>
+		<p>This feature of the Embed API can be used in various use cases, like switching between</p>
+		
+		<ul>
+			<li>multiple cameras</li>
+			<li>simultaneous sessions of a conference</li>
+			<li>multi-language streams</li>
+		</ul>
+		<p>or to promote further channels.</p>
+	</div>
+
+	<div class="container"></div>
+
+	<script>
+		$(function(){
+			function createChooserItem (content, colClass, $row, embedApi) {
+				$('<div/>')
+					.addClass('content')
+					.addClass(colClass)
+					.append($('<a/>')
+						.attr({
+							href: '#!/' + (content.app !== 'channel' ? 'recorded/' : '') + content.id,
+							title: content.title
+						})
+						.click(function(){
+							embedApi.callMethod(
+									'load',
+									content.app !== 'channel' ? 'video' : content.app,
+									content.id
+							);
+						})
+						.data({
+							app: content.app,
+							id: content.id
+						})
+						.append('<img src="' + content.img + '"/>')
+					)
+					.appendTo($row);
+			}
+
+			function createChooserRow ($contentChooser) {
+				return $('<div/>')
+					.addClass('row')
+					.appendTo($contentChooser);
+			}
+
+			function createContentChooser ($container, contents, embedApi) {
+				var $contentChooser = $('<div/>'),
+					$row,
+					gridSize = 12,
+					contentPerRow = 4,
+					colClass = 'col-md-' + (gridSize / contentPerRow);
+
+				$contentChooser
+					.addClass('content-chooser')
+					.appendTo($container);
+
+				for (i = 0; i < contents.length; ++i) {
+					if (i % contentPerRow === 0) {
+						$row = createChooserRow($contentChooser);
+					}
+
+					createChooserItem(contents[i], colClass, $row, embedApi);
+				}
+			}
+
+			function createPlayer ($container, id, content) {
+				var $player = $('<iframe/>'),
+					url = 'http://www.ustream.tv/embed/%content%?html5ui',
+					contentUrlPart = '';
+
+				$container = $('<div/>')
+					.addClass('player embed-responsive embed-responsive-16by9')
+					.appendTo($container);
+
+				contentUrlPart += content.app === 'channel' ?
+					'' : 'recorded/';
+				contentUrlPart += content.id;
+
+				url = url.replace('%content%', contentUrlPart);
+
+				return $player.attr({
+						id: id,
+						src: url,
+						allowfullscreen: true,
+						webkitallowfullscreen: true,
+						scrolling: 'no'
+					})
+					.addClass('embed-responsive-item')
+					.appendTo($container);
+			}
+
+			function setupEmbedApi ($player) {
+				return UstreamEmbed($player)
+			}
+
+			var contents = [
+					{ app: 'channel', id: 12762028, title: 'Animal Planet L!VE',  img: 'http://static.ddmcdn.com/gif/apl-tvhighlights-pbpaplthumbnail.png' },
+					{ app: 'channel', id: 13628077, title: 'APL!VE Pacific Reef', img: 'http://static.ddmcdn.com/gif/pacific-reef-270x152.jpg' },
+					{ app: 'channel', id: 14812707, title: 'APL!VE Reef Sharks',  img: 'http://static.ddmcdn.com/gif/apl_live_sharks_270x152.jpg' },
+					{ app: 'channel', id: 14225913, title: 'APL!VE Tanked',       img: 'http://static.ddmcdn.com/gif/apl-tanked-clownfish.png' }
+				],
+				viewerId = 'UstreamPlayer',
+				$container = $('.container'),
+				$player = createPlayer($container, viewerId, contents[0]),
+				embedApi = setupEmbedApi(viewerId);
+
+			createContentChooser($container, contents, embedApi);
+		});
+	</script>
+</body>
+</html>
