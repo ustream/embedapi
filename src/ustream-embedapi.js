@@ -120,6 +120,8 @@ var UstreamEmbed = (function () {
 					addCommandQueue.apply(this,arguments);
 				}
 
+				sendMessage(element, embedHost, {cmd: 'ready'});
+
 				return instanceObj ={
 					host: embedHost,
 					callMethod: callMethod,
