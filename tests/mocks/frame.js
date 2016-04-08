@@ -69,6 +69,7 @@ function createMockFrame (id) {
 						case "duration":
 						case "viewers":
 						case "progress":
+						case "playingContent":
 							send(null, 100, eventdata.cmd);
 							break;
 					}

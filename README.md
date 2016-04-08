@@ -1,5 +1,7 @@
 # Ustream Embed API
 
+[![Build Status](https://travis-ci.org/ustream/embedapi.svg?branch=master)](https://travis-ci.org/ustream/embedapi)
+
 Enables sites using the [Ustream] embed iframe to build and adapt on the embed live player.
 
 The Ustream Embed API provides basic methods to control the live stream or recorded video playback, and enables the user to access essential events of the live stream or the played video.
@@ -11,7 +13,7 @@ The Ustream Embed API requires [postMessage] DOM API, it won't work in browsers 
 Create an instance of the Embed API by providing the ID of the iframe, or the iframe DOM object itself:
 
 ```html
-<iframe id="UstreamIframe" src="//ustream.tv/embed/1524" width="640" height="480"></iframe>
+<iframe id="UstreamIframe" src="//ustream.tv/embed/1524" width="640" height="480" allowfullscreen webkitallowfullscreen></iframe>
 ```
 
 ```javascript
@@ -25,6 +27,19 @@ The Ustream Embed API provides the following methods:
  * addListener
  * removeListener
 
+## URL parameters
+
+The default behaviour of the player can be modified by extending the src URL with any of the following parameters:
+
+| Parameter | Effect | Values | Default |
+| ------------- | ----------- | ----------- | ----------- |
+| allowfullscreen | Disables fullscreen and remove the button. | true/false | true |
+| autoplay | Starts video playback automatically. (Enterprise feature) | true/false | false |
+| controls | Hides all UI elements. | true/false | true |
+| offaircontent | Disables displaying offair content. | true/false | true |
+| quality | Overrides the automatic quality selection. | low, med, high, auto | auto |
+| showtitle | Hides title and viewer count. | true/false | true |
+| volume | Overrides the default volume. 0 is mute, 1 is max volume. | 0.0-1.0 | user setting |
 
 ## callMethod
 
@@ -176,7 +191,7 @@ viewer.getProperty('progress', function (progress) {
 
 ### content
 
-Get the current content type and id as an array
+Get the loaded content type and id as an array.
 
 ##### Example:
 
@@ -186,6 +201,27 @@ viewer.getProperty('content', function (content) {
     // or
     // content == ['recorded', 123456]
     ...
+});
+```
+
+### playingContent
+
+Get the actual content type and id as an array. This will return the currently played offair video's id if the loaded content is an offair channel or with the channel id if the channel is live.
+
+##### Example:
+
+```javascript
+viewer.callMethod('load', 'channel', 1524);
+
+// ...
+
+viewer.getProperty('playingContent', function (content) {
+    // content == ['channel', 1524]
+    //  - if it's live, or
+    // content == ['recorded', 123456]
+    //  - if it's offair and has offair video content, or
+    // content == []
+    //  - if it's offair and doesn't have offair video content
 });
 ```
 
@@ -285,29 +321,6 @@ viewer.addListener('quality', callBack);
     "2":{"label":"480p","active":false},
     "16":{"label":"BEST","active":true}
 }
-```
-
-
-### ppvgofree
-
-Called when the Pay-Per-View stream becomes available free
-
-
-##### Example:
-```javascript
-viewer.addListener('ppvgofree', callBack);
-```
-
-
-### ppvgopaid
-
-Called when the free available Pay-Per-View stream closes the paywall,
-the viewers can only access the stream with a valid ticket bought.
-
-
-##### Example:
-```javascript
-viewer.addListener('ppvgopaid', callBack);
 ```
 
 ### syncedmeta

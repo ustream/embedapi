@@ -73,11 +73,15 @@ suite('Ustream EmbedAPI tests', function() {
 
 			mte.send('ready', true);
 
-			setTimeout(function () {
-				var received = JSON.parse(spy.args[0][0]);
 
-				sinon.assert.calledOnce(spy);
-				assert.equal(received.cmd, 'play');
+
+			setTimeout(function () {
+				var received1 = JSON.parse(spy.args[0][0]),
+					received2 = JSON.parse(spy.args[1][0]);
+
+				sinon.assert.calledTwice(spy);
+				assert.equal(received1.cmd, 'apihandshake');
+				assert.equal(received2.cmd, 'play');
 				done();
 			}, 30);
 
@@ -98,10 +102,12 @@ suite('Ustream EmbedAPI tests', function() {
 			mte.send('ready', true);
 
 			setTimeout(function () {
-				var received = JSON.parse(spy.args[0][0]);
+				var received1 = JSON.parse(spy.args[0][0]),
+					received2 = JSON.parse(spy.args[1][0]);
 
-				sinon.assert.calledOnce(spy);
-				assert.equal(received.cmd, 'pause');
+				sinon.assert.calledTwice(spy);
+				assert.equal(received1.cmd, 'apihandshake');
+				assert.equal(received2.cmd, 'pause');
 				done();
 			}, 30);
 
@@ -122,10 +128,12 @@ suite('Ustream EmbedAPI tests', function() {
 			mte.send('ready', true);
 
 			setTimeout(function () {
-				var received = JSON.parse(spy.args[0][0]);
+				var received1 = JSON.parse(spy.args[0][0]),
+					received2 = JSON.parse(spy.args[1][0]);
 
-				sinon.assert.calledOnce(spy);
-				assert.equal(received.cmd, 'stop');
+				sinon.assert.calledTwice(spy);
+				assert.equal(received1.cmd, 'apihandshake');
+				assert.equal(received2.cmd, 'stop');
 				done();
 			}, 30);
 
@@ -145,12 +153,14 @@ suite('Ustream EmbedAPI tests', function() {
 			mte.send('ready', true);
 
 			setTimeout(function () {
-				var received = JSON.parse(spy.args[0][0]);
+				var received1 = JSON.parse(spy.args[0][0]),
+					received2 = JSON.parse(spy.args[1][0]);
 
-				sinon.assert.calledOnce(spy);
-				assert.equal(received.cmd, 'load');
-				assert.equal(received.args[0], 'channel');
-				assert.equal(received.args[1], 1524);
+				sinon.assert.calledTwice(spy);
+				assert.equal(received1.cmd, 'apihandshake');
+				assert.equal(received2.cmd, 'load');
+				assert.equal(received2.args[0], 'channel');
+				assert.equal(received2.args[1], 1524);
 				done();
 			}, 30);
 
@@ -170,11 +180,13 @@ suite('Ustream EmbedAPI tests', function() {
 			mte.send('ready', true);
 
 			setTimeout(function () {
-				var received = JSON.parse(spy.args[0][0]);
+				var received1 = JSON.parse(spy.args[0][0]),
+					received2 = JSON.parse(spy.args[1][0]);
 
-				sinon.assert.calledOnce(spy);
-				assert.equal(received.cmd, 'seek');
-				assert.equal(received.args[0], 180);
+				sinon.assert.calledTwice(spy);
+				assert.equal(received1.cmd, 'apihandshake');
+				assert.equal(received2.cmd, 'seek');
+				assert.equal(received2.args[0], 180);
 				done();
 			}, 30);
 
@@ -193,11 +205,13 @@ suite('Ustream EmbedAPI tests', function() {
 			mte.send('ready', true);
 
 			setTimeout(function () {
-				var received = JSON.parse(spy.args[0][0]);
+				var received1 = JSON.parse(spy.args[0][0]),
+					received2 = JSON.parse(spy.args[1][0]);
 
-				sinon.assert.calledOnce(spy);
-				assert.equal(received.cmd, 'volume');
-				assert.equal(received.args[0], 30);
+				sinon.assert.calledTwice(spy);
+				assert.equal(received1.cmd, 'apihandshake');
+				assert.equal(received2.cmd, 'volume');
+				assert.equal(received2.args[0], 30);
 				done();
 			}, 30);
 
@@ -217,11 +231,13 @@ suite('Ustream EmbedAPI tests', function() {
 			mte.send('ready', true);
 
 			setTimeout(function () {
-				var received = JSON.parse(spy.args[0][0]);
+				var received1 = JSON.parse(spy.args[0][0]),
+					received2 = JSON.parse(spy.args[1][0]);
 
-				sinon.assert.calledOnce(spy);
-				assert.equal(received.cmd, 'quality');
-				assert.equal(received.args[0], 16);
+				sinon.assert.calledTwice(spy);
+				assert.equal(received1.cmd, 'apihandshake');
+				assert.equal(received2.cmd, 'quality');
+				assert.equal(received2.args[0], 16);
 				done();
 			}, 30);
 		});
@@ -321,12 +337,18 @@ suite('Ustream EmbedAPI tests', function() {
 			sstream.socialsend('load', ['video',123456]);
 
 
-			var received = JSON.parse(mspy.args[0][0]);
+			var received1 = JSON.parse(mspy.args[0][0]),
+				received2 = JSON.parse(mspy.args[1][0]),
+				received3 = JSON.parse(mspy.args[2][0]);
 
-			sinon.assert.calledOnce(mspy);
-			assert.equal(received.cmd, 'load');
-			assert.equal(received.args[0], 'video');
-			assert.equal(received.args[1], 123456);
+			sinon.assert.callCount(mspy, 3);
+			assert.equal(received1.cmd, 'ready');
+
+			assert.equal(received2.cmd, 'apihandshake');
+
+			assert.equal(received3.cmd, 'load');
+			assert.equal(received3.args[0], 'video');
+			assert.equal(received3.args[1], 123456);
 
 			done();
 
@@ -405,6 +427,51 @@ suite('Ustream EmbedAPI tests', function() {
 				done();
 			}, 30);
 
+		});
+
+		suite('playingContent', function () {
+			test('playingContent just once', function (done) {
+				var cmd = 'playingContent',
+					mte = MTE(),
+					embedapi = UstreamEmbed(mte),
+					spy = sinon.spy();
+
+				window[mte.id] = mte;
+
+				mte.send('ready', true);
+
+				embedapi.getProperty(cmd, spy);
+
+				setTimeout(function () {
+					var received = JSON.parse(spy.args[0][0]);
+					sinon.assert.calledOnce(spy);
+					assert.equal(received, 100);
+					done();
+				}, 30);
+			});
+
+
+			test('playingContent recursively', function (done) {
+				var cmd = 'playingContent',
+					mte = MTE(),
+					embedapi = UstreamEmbed(mte),
+					spy = sinon.spy();
+
+				window[mte.id] = mte;
+
+				mte.send('ready', true);
+
+				embedapi.callMethod(cmd, function () {
+					embedapi.callMethod(cmd, spy);
+				});
+
+				setTimeout(function () {
+					var received = JSON.parse(spy.args[0][0]);
+					sinon.assert.calledOnce(spy);
+					assert.equal(received, 100);
+					done();
+				}, 100);
+			});
 		});
 	});
 

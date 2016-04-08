@@ -1,0 +1,29 @@
+{
+  "name": "ustream-embedapi",
+  "version": "0.0.1",
+  "homepage": "https://github.com/ustream/embedapi",
+  "authors": [
+    "_nec <nec@shell8.net>"
+  ],
+  "description": "Enables sites using the Ustream embed iframe to build and adapt on the embed live player.",
+  "main": "src/ustream-embedapi.js",
+  "moduleType": [
+    "globals"
+  ],
+  "keywords": [
+    "ustream",
+    "embed",
+    "api",
+    "live",
+    "video",
+    "streaming"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
