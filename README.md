@@ -34,7 +34,7 @@ The default behaviour of the player can be modified by extending the src URL wit
 | Parameter | Effect | Values | Default |
 | ------------- | ----------- | ----------- | ----------- |
 | allowfullscreen | Disables fullscreen and remove the button. | true/false | true |
-| autoplay | Starts video playback automatically. (Enterprise feature) | true/false | false |
+| autoplay | Starts video playback automatically. | true/false | false |
 | controls | Hides all UI elements. | true/false | true |
 | offaircontent | Disables displaying offair content. | true/false | true |
 | quality | Overrides the automatic quality selection. | low, med, high, auto | auto |
