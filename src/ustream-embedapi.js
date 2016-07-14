@@ -114,6 +114,10 @@ var UstreamEmbed = (function () {
 					isReady = true;
 					sendMessage(element, embedHost, {cmd: 'apihandshake', args: []});
 					execCommandQueue();
+
+					if (sStreamElement) {
+						sendMessage(sStreamElement, sStreamHost, {cmd: 'viewer_ready'});
+					}
 				}
 
 				function callMethod () {
@@ -332,8 +336,8 @@ var UstreamEmbed = (function () {
 		define([], function () {
 			return UstreamEmbed;
 		});
-	} else {
-		return (window.UstreamEmbed = UstreamEmbed);
 	}
+
+	return (window.UstreamEmbed = UstreamEmbed);
 
 })();
