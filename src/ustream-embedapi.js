@@ -35,6 +35,10 @@ var UstreamEmbed = (function () {
 
 				embedHost = getHostName(element.getAttribute('src')).toLowerCase();
 
+				element.onload = function () {
+					sendMessage(element, embedHost, {cmd: 'ready'});
+				};
+
 				function addCommandQueue (method) {
 
 					if (method === 'socialstream') {
@@ -123,8 +127,6 @@ var UstreamEmbed = (function () {
 				function callMethod () {
 					addCommandQueue.apply(this,arguments);
 				}
-
-				sendMessage(element, embedHost, {cmd: 'ready'});
 
 				return instanceObj ={
 					host: embedHost,
