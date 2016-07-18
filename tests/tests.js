@@ -338,14 +338,17 @@ suite('Ustream EmbedAPI tests', function() {
 
 
 			var received1 = JSON.parse(mspy.args[0][0]),
-				received2 = JSON.parse(mspy.args[1][0]);
+				received2 = JSON.parse(mspy.args[1][0]),
+				received3 = JSON.parse(mspy.args[2][0]);
 
-			sinon.assert.calledTwice(mspy);
-			assert.equal(received1.cmd, 'apihandshake');
+			sinon.assert.callCount(mspy, 3);
+			assert.equal(received1.cmd, 'ready');
 
-			assert.equal(received2.cmd, 'load');
-			assert.equal(received2.args[0], 'video');
-			assert.equal(received2.args[1], 123456);
+			assert.equal(received2.cmd, 'apihandshake');
+
+			assert.equal(received3.cmd, 'load');
+			assert.equal(received3.args[0], 'video');
+			assert.equal(received3.args[1], 123456);
 
 			done();
 
@@ -424,6 +427,51 @@ suite('Ustream EmbedAPI tests', function() {
 				done();
 			}, 30);
 
+		});
+
+		suite('playingContent', function () {
+			test('playingContent just once', function (done) {
+				var cmd = 'playingContent',
+					mte = MTE(),
+					embedapi = UstreamEmbed(mte),
+					spy = sinon.spy();
+
+				window[mte.id] = mte;
+
+				mte.send('ready', true);
+
+				embedapi.getProperty(cmd, spy);
+
+				setTimeout(function () {
+					var received = JSON.parse(spy.args[0][0]);
+					sinon.assert.calledOnce(spy);
+					assert.equal(received, 100);
+					done();
+				}, 30);
+			});
+
+
+			test('playingContent recursively', function (done) {
+				var cmd = 'playingContent',
+					mte = MTE(),
+					embedapi = UstreamEmbed(mte),
+					spy = sinon.spy();
+
+				window[mte.id] = mte;
+
+				mte.send('ready', true);
+
+				embedapi.callMethod(cmd, function () {
+					embedapi.callMethod(cmd, spy);
+				});
+
+				setTimeout(function () {
+					var received = JSON.parse(spy.args[0][0]);
+					sinon.assert.calledOnce(spy);
+					assert.equal(received, 100);
+					done();
+				}, 100);
+			});
 		});
 	});
 

@@ -33,7 +33,7 @@ var UstreamEmbed = (function () {
 					events = {},
 					ieHackEvent = [];
 
-				embedHost = getHostName(element.getAttribute('src'));
+				embedHost = getHostName(element.getAttribute('src')).toLowerCase();
 
 				function addCommandQueue (method) {
 
@@ -114,11 +114,17 @@ var UstreamEmbed = (function () {
 					isReady = true;
 					sendMessage(element, embedHost, {cmd: 'apihandshake', args: []});
 					execCommandQueue();
+
+					if (sStreamElement) {
+						sendMessage(sStreamElement, sStreamHost, {cmd: 'viewer_ready'});
+					}
 				}
 
 				function callMethod () {
 					addCommandQueue.apply(this,arguments);
 				}
+
+				sendMessage(element, embedHost, {cmd: 'ready'});
 
 				return instanceObj ={
 					host: embedHost,
@@ -165,7 +171,7 @@ var UstreamEmbed = (function () {
 							// ugyh ha a ss inicializalas megvan visszahivunk ide
 						}
 
-						if (e.origin == embedHost) {
+						if (e.origin.toLowerCase() == embedHost) {
 							try {
 								d = JSON.parse(e.data);
 							} catch (err) {
@@ -273,14 +279,16 @@ var UstreamEmbed = (function () {
 			return;
 		}
 
-		for (var cb in getters[event]) {
-			if (getters[event].hasOwnProperty(cb)) {
-				getters[event][cb].call(window, data);
-			}
-		}
+		// keep reference to array only here
+		var items = getters[event];
 
+		// then delete the original array
 		getters[event] = null;
 		delete getters[event];
+
+		items.forEach(function (item) {
+			item.call(window, data);
+		});
 	}
 
 	function onMessage (e) {
@@ -328,8 +336,8 @@ var UstreamEmbed = (function () {
 		define([], function () {
 			return UstreamEmbed;
 		});
-	} else {
-		return (window.UstreamEmbed = UstreamEmbed);
 	}
+
+	return (window.UstreamEmbed = UstreamEmbed);
 
 })();
