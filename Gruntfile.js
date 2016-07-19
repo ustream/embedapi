@@ -1,11 +1,11 @@
 // Gruntfile.js
-module.exports = function(grunt){
+module.exports = function (grunt){
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
 
 		mocha: {
 			all: {
-				src: ['tests/testrunner.html'],
+				src: ['tests/testrunner.html']
 			},
 			options: {
 				run: true
