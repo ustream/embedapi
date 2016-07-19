@@ -12,7 +12,7 @@ function createMockFrame (id) {
 				eventdata = {};
 
 			evt.initEvent('message', true, true);
-			evt.origin =  "http://localhost";
+			evt.origin =  'http://localhost';
 			evt.source = instance.id;
 
 			if (!property) {
@@ -28,6 +28,13 @@ function createMockFrame (id) {
 			window.dispatchEvent(evt);
 		}
 
+		function onload () {
+			var evt = document.createEvent('Event');
+
+			evt.initEvent('load', true, true);
+			window.document.dispatchEvent(evt);
+		}
+
 		function socialsend (cmd, data) {
 
 			// mock message event on current window
@@ -36,7 +43,7 @@ function createMockFrame (id) {
 				eventdata = {};
 
 			evt.initEvent('message', true, true);
-			evt.origin =  "http://localhost";
+			evt.origin =  'http://localhost';
 			evt.source = instance.id;
 
 			eventdata.cmd = cmd;
@@ -55,7 +62,7 @@ function createMockFrame (id) {
 
 			getAttribute: function (attr) {
 				switch (attr) {
-					case "src":
+					case 'src':
 						return 'http://localhost/frame.html';
 				}
 			},
@@ -66,10 +73,10 @@ function createMockFrame (id) {
 					var eventdata = JSON.parse(data);
 
 					switch (eventdata.cmd) {
-						case "duration":
-						case "viewers":
-						case "progress":
-						case "playingContent":
+						case 'duration':
+						case 'viewers':
+						case 'progress':
+						case 'playingContent':
 							send(null, 100, eventdata.cmd);
 							break;
 					}
