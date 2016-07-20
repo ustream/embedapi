@@ -19,7 +19,7 @@ suite('Ustream EmbedAPI tests', function() {
 			sinon.assert.calledOnce(spy);
 		});
 
-		test("live", function () {
+		test('live', function () {
 			var mte = MTE(),
 				embedapi = UstreamEmbed(mte),
 				spy = sinon.spy();
@@ -38,7 +38,7 @@ suite('Ustream EmbedAPI tests', function() {
 
 	suite('removeListener', function () {
 
-		test("live", function () {
+		test('live', function () {
 			var mte = MTE(),
 				embedapi = UstreamEmbed(mte),
 				spy = sinon.spy();
@@ -60,7 +60,7 @@ suite('Ustream EmbedAPI tests', function() {
 
 	suite('callMethod', function () {
 
-		test("play", function (done) {
+		test('play', function (done) {
 			var mte = MTE(),
 				embedapi = UstreamEmbed(mte),
 				spy = sinon.spy();
@@ -88,7 +88,7 @@ suite('Ustream EmbedAPI tests', function() {
 		});
 
 
-		test("pause", function (done) {
+		test('pause', function (done) {
 			var mte = MTE(),
 				embedapi = UstreamEmbed(mte),
 				spy = sinon.spy();
@@ -114,7 +114,7 @@ suite('Ustream EmbedAPI tests', function() {
 		});
 
 
-		test("stop", function (done) {
+		test('stop', function (done) {
 			var mte = MTE(),
 				embedapi = UstreamEmbed(mte),
 				spy = sinon.spy();
@@ -139,7 +139,7 @@ suite('Ustream EmbedAPI tests', function() {
 
 		});
 
-		test("load", function (done) {
+		test('load', function (done) {
 			var mte = MTE(),
 				embedapi = UstreamEmbed(mte),
 				spy = sinon.spy();
@@ -166,7 +166,7 @@ suite('Ustream EmbedAPI tests', function() {
 
 		});
 
-		test("seek", function (done) {
+		test('seek', function (done) {
 			var mte = MTE(),
 				embedapi = UstreamEmbed(mte),
 				spy = sinon.spy();
@@ -191,7 +191,7 @@ suite('Ustream EmbedAPI tests', function() {
 			}, 30);
 
 		});
-		test("volume", function (done) {
+		test('volume', function (done) {
 			var mte = MTE(),
 				embedapi = UstreamEmbed(mte),
 				spy = sinon.spy();
@@ -217,7 +217,7 @@ suite('Ustream EmbedAPI tests', function() {
 
 		});
 
-		test("quality", function (done) {
+		test('quality', function (done) {
 			var mte = MTE();
 			var embedapi = UstreamEmbed(mte);
 			window[mte.id] = mte;
@@ -248,7 +248,7 @@ suite('Ustream EmbedAPI tests', function() {
 
 	suite('socialstream connect', function () {
 
-		test("listen to sstream iframe", function (done) {
+		test('listen to sstream iframe', function (done) {
 
 			var mte, embedapi, sstream, call;
 
@@ -275,7 +275,7 @@ suite('Ustream EmbedAPI tests', function() {
 			done();
 		});
 
-		test("ready", function (done) {
+		test('ready', function (done) {
 
 			var mte,
 				embedapi,
@@ -311,7 +311,7 @@ suite('Ustream EmbedAPI tests', function() {
 
 		});
 
-		test("load", function (done) {
+		test('load', function (done) {
 
 			var mte, embedapi, sstream,
 				sspy = sinon.spy(),
@@ -332,10 +332,10 @@ suite('Ustream EmbedAPI tests', function() {
 
 			sstream.socialsend('ready');
 
+			mte.onload();
 			mte.send('ready', true);
 
 			sstream.socialsend('load', ['video',123456]);
-
 
 			var received1 = JSON.parse(mspy.args[0][0]),
 				received2 = JSON.parse(mspy.args[1][0]),
@@ -358,7 +358,7 @@ suite('Ustream EmbedAPI tests', function() {
 
 	suite('getProperty', function () {
 
-		test("duration", function (done) {
+		test('duration', function (done) {
 			var cmd = 'duration',
 				mte = MTE(),
 				embedapi = UstreamEmbed(mte),
@@ -383,7 +383,7 @@ suite('Ustream EmbedAPI tests', function() {
 
 		});
 
-		test("viewers", function (done) {
+		test('viewers', function (done) {
 			var cmd = 'viewers',
 				mte = MTE(),
 				embedapi = UstreamEmbed(mte),
@@ -408,7 +408,7 @@ suite('Ustream EmbedAPI tests', function() {
 
 		});
 
-		test("progress", function (done) {
+		test('progress', function (done) {
 			var cmd = 'progress',
 				mte = MTE(),
 				embedapi = UstreamEmbed(mte),
@@ -478,7 +478,7 @@ suite('Ustream EmbedAPI tests', function() {
 
 	suite('destroy', function () {
 
-		test("destroy", function () {
+		test('destroy', function () {
 			var mte = MTE(),
 				embedapi = UstreamEmbed(mte),
 				spy1 = sinon.spy(),

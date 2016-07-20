@@ -15,7 +15,7 @@ var UstreamEmbed = (function () {
 		instances = {},
 		hostRegexp = new RegExp('^(http(?:s)?\://[^/]+)', 'im');
 
-	function UstreamEmbed(iframe) {
+	function UstreamEmbed (iframe) {
 		return createInstance(iframe);
 	}
 
@@ -34,6 +34,8 @@ var UstreamEmbed = (function () {
 					ieHackEvent = [];
 
 				embedHost = getHostName(element.getAttribute('src')).toLowerCase();
+
+				element.onload = onLoadElement;
 
 				function addCommandQueue (method) {
 
@@ -98,7 +100,7 @@ var UstreamEmbed = (function () {
 					var d = JSON.parse(e.data),
 						args;
 
-					if (!!d.cmd && d.cmd == "ready") {
+					if (!!d.cmd && d.cmd == 'ready') {
 						// handshake
 						sendMessage(sStreamElement, sStreamHost, {cmd: 'ready'});
 						return;
@@ -108,6 +110,10 @@ var UstreamEmbed = (function () {
 					args = args.concat(d.args);
 
 					addCommandQueue.apply(this, args);
+				}
+
+				function onLoadElement () {
+					sendMessage(element, embedHost, {cmd: 'ready'});
 				}
 
 				function ready () {
@@ -121,12 +127,10 @@ var UstreamEmbed = (function () {
 				}
 
 				function callMethod () {
-					addCommandQueue.apply(this,arguments);
+					addCommandQueue.apply(this, arguments);
 				}
 
-				sendMessage(element, embedHost, {cmd: 'ready'});
-
-				return instanceObj ={
+				return instanceObj = {
 					host: embedHost,
 					callMethod: callMethod,
 
@@ -157,7 +161,7 @@ var UstreamEmbed = (function () {
 					onmessage: function (e) {
 						var d;
 
-						if (! embedHost && ! sStreamHost) {
+						if (!embedHost && !sStreamHost) {
 							// Combined embed IE8-ban csinalhat olyat, hogy
 							// mindket embed iframe kilovi a ready-t, de a Ustream Embed meg nem
 							// peldanyosodott, igy nincs iframe URL sehol. (embedhost, sstreamhost stb.)
@@ -228,7 +232,6 @@ var UstreamEmbed = (function () {
 						} else if (sStreamConnected && e.origin == sStreamHost) {
 							onSStreamMsg(e);
 							return;
-
 						}
 					},
 
@@ -250,7 +253,7 @@ var UstreamEmbed = (function () {
 			}(element));
 
 		if (!element.id) {
-			element.id = "UstreamEmbed" + Math.ceil(Math.random() * 100000);
+			element.id = 'UstreamEmbed' + Math.ceil(Math.random() * 100000);
 		}
 
 		instance.id = element.id;
@@ -260,7 +263,7 @@ var UstreamEmbed = (function () {
 	}
 
 	function getIframe (iframe) {
-		if (typeof iframe === "string") {
+		if (typeof iframe === 'string') {
 			iframe = document.getElementById(iframe);
 		}
 		return iframe;
@@ -300,7 +303,7 @@ var UstreamEmbed = (function () {
 					if (doc.contentWindow === e.source) {
 						instances[ins].onmessage(e);
 					}
-				} else if (typeof e.source  === "string" && e.source == ins) {
+				} else if (typeof e.source  === 'string' && e.source == ins) {
 					instances[ins].onmessage(e);
 				}
 			}
@@ -308,7 +311,7 @@ var UstreamEmbed = (function () {
 	}
 
 	function sendMessage (element, host, data) {
-		element.contentWindow.postMessage(JSON.stringify(data), host)
+		element.contentWindow.postMessage(JSON.stringify(data), host);
 	}
 
 	function getHostName (url) {
@@ -322,7 +325,7 @@ var UstreamEmbed = (function () {
 		return Array.prototype.slice.call(smtg, 0);
 	}
 
-	function addDomEvent(target, event, cb) {
+	function addDomEvent (target, event, cb) {
 		if (target.addEventListener) {
 			target.addEventListener(event, cb, false);
 		} else {
