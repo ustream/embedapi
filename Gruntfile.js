@@ -15,10 +15,11 @@ module.exports = function (grunt){
 		uglify: {
 			all: {
 				options: {
-					report: 'gzip'
+
 				},
 				files: {
-					'dist/ustream-embedapi.min.js': ['src/ustream-embedapi.js']
+					'dist/ustream-embedapi.min.js': ['src/ustream-embedapi.js'],
+					'pkg/ustream-embedapi.min.js': ['src/ustream-embedapi.js'] // soon to be deprecated
 				}
 			}
 		},

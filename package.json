@@ -1,9 +1,13 @@
 {
   "name": "ustream-embedapi",
-  "version": "0.0.5",
+  "version": "1.0.0",
   "description": "Enables sites using the Ustream embed iframe to build and adapt on the embed live player",
   "author": "_Nec <nec@ustream.tv>",
   "license": "MIT",
+  "files": [
+    "dist",
+    "src"
+  ],
   "devDependencies": {
     "chai": "1.7.2",
     "grunt": "latest",
