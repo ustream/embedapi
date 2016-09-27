@@ -1,24 +1,29 @@
 {
-	"name": "ustream-embedapi",
-	"version": "0.0.4",
-	"description": "Enables sites using the Ustream embed iframe to build and adapt on the embed live player",
-	"author": "_Nec <nec@ustream.tv>",
-	"devDependencies": {
-		"grunt": "latest",
-		"grunt-mocha": "~0.4.6",
-		"chai": "1.7.2",
-		"sinon": "1.7.3",
-		"mocha": "1.12.0",
-		"grunt-contrib-uglify": "0.2.2"
-	},
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/ustream/embedapi.git"
-	},
-	"engines": {
-		"node": ">= 0.10"
-	},
-	"scripts": {
-		"test": "grunt mocha"
-	}
+  "name": "ustream-embedapi",
+  "version": "0.0.5",
+  "description": "Enables sites using the Ustream embed iframe to build and adapt on the embed live player",
+  "author": "_Nec <nec@ustream.tv>",
+  "license": "MIT",
+  "devDependencies": {
+    "chai": "1.7.2",
+    "grunt": "latest",
+    "grunt-contrib-uglify": "0.2.2",
+    "grunt-mocha": "~0.4.6",
+    "grunt-release": "^0.14.0",
+    "mocha": "1.12.0",
+    "sinon": "1.7.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ustream/embedapi.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ustream/embedapi/issues"
+  },
+  "engines": {
+    "node": ">= 4.2"
+  },
+  "scripts": {
+    "test": "grunt mocha"
+  }
 }

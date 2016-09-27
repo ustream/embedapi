@@ -1,5 +1,11 @@
 language: node_js
 node_js:
-  - "0.10"
+- '4.2'
 before_install: npm install -g grunt-cli
 install: npm install
+deploy:
+  provider: npm
+  on:
+    tags: true
+  api_key:
+    secure: OA7WfLboOoMFXht/B4ScDQ1CArFs+R1bJOXDZBlC358ZAlysNn4HeTQ7Og3Kq3ITC/84EX0E37W4FGAR+8SzX0jp/hJrBZO0otL03TxWn2bHVH3WB0XfQTrVFUFIgri5dZmQA0WfATGDw2/fEO1TwveAsY7b/v3hqNMtXFwr0Lk=

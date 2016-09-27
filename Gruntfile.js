@@ -18,8 +18,23 @@ module.exports = function (grunt){
 					report: 'gzip'
 				},
 				files: {
-					'pkg/ustream-embedapi.min.js': ['src/ustream-embedapi.js']
+					'dist/ustream-embedapi.min.js': ['src/ustream-embedapi.js']
 				}
+			}
+		},
+
+		release: {
+			options: {
+				bump: true, //default: true
+				file: 'package.json', //default: package.json
+				add: true, //default: true
+				commit: true, //default: true
+				push: true, //default: true
+				tag: true, //default: true
+				pushTags: true, //default: true
+				npm: false, //default: true
+				npmtag: false, //default: no tag
+				tagName: 'release-<%= version %>'
 			}
 		}
 
@@ -28,6 +43,7 @@ module.exports = function (grunt){
 	// Load grunt mocha task
 	grunt.loadNpmTasks('grunt-mocha');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
+	grunt.loadNpmTasks('grunt-release');
 
 	grunt.registerTask('default', ['mocha', 'uglify']);
 };
