@@ -323,18 +323,6 @@ viewer.addListener('quality', callBack);
 }
 ```
 
-### syncedmeta
-
-Called when a synced metadata has arrived on the stream/recorded. 
-Used for keep presentations in sync with the live stream / recorded.
-
-Received arguments: data (object) 
-
-##### Example:
-```javascript
-viewer.addListener('syncedmeta', callBack);
-```
-
 ### content
 
 Called when a the player content changes for some reason.
